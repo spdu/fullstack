@@ -3,48 +3,51 @@ import ReactDOM from 'react-dom'
 
 const Button = ({handleClick, text}) => (
     <button onClick={handleClick}>
-        {text}
-      </button>
+    {text}
+    </button>
     )
-    const Votes = ({votes}) => {
-        return <p>has {votes} votes</p>
+    const Votes = ({votes}) => <p>has {votes} votes</p>
+
+    const MostVotes = ({anecdotes, votes}) => {
+
+        const max = Math.max(...votes)
+        const i = votes.indexOf(max)
+
+        if (max !== 0) { //jos maksimi on jotain muuta kuin 0 niin ääniä on annettu
+            return (
+            <div>
+            <h1>Anecdote with most votes</h1>
+            {anecdotes[i]}    
+            <p>has {max} votes</p>
+            </div>
+            )
+        }
+        return <p></p>
     }
 
 const App = (props) => {
 
   const [selected, setSelected] = useState(0)
-  const [voteTable, setVote] = useState([0,0,0,0,0,0])
-  //const pisteTaulu = new Array(anecdotes.length+1).join('0').split('')
-  
-
- 
+  const [voteTable, setVote] = useState(new Array(anecdotes.length).fill(0))
   const randomAnecdote = () => {
-      console.log(Math.floor((Math.random()* anecdotes.length)))
-      //setSelected(anecdotes[Math.floor((Math.random()* anecdotes.length)+1)])
       setSelected(Math.floor((Math.random()* anecdotes.length)))
   }
   const voteAnecdote = () => {
-
     const copy = [...voteTable]
     copy[selected] += 1
-    console.log('table', copy[selected])
-    setVote(voteTable[selected] = copy[selected])
-    //const copy = [...pisteTaulu]
-    //console.log('taulu', voteTable[selected])
-    //copy[selected]++
-    //pisteTaulu[selected]++
+    setVote(copy)
   }
   
-
-
   return (
     <div>
+        <h1>Anecdote of the day</h1>
       {props.anecdotes[selected]}
       <Votes votes={voteTable[selected]}/>
       <p>
       <Button handleClick={voteAnecdote} text='vote'/>
       <Button handleClick={randomAnecdote} text='next anecdote'/>
       </p>
+      <MostVotes anecdotes={anecdotes} votes={voteTable}/>
     </div>
   )
 }
