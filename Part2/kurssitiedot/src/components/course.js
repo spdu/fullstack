@@ -5,7 +5,7 @@ const Course = ({course}) => {
       
       <div>
         {course.map((value, index) => { //Read through the course array and handle each course name separately
-          return <div key={index}>
+          return <div key={index}> //index might not be needed
           <Header title={value.name} />
           <Content course={value}/>
           <Total parts={value.parts} />
