@@ -7,7 +7,7 @@ const Persons = ({persons, removePerson}) => {
 
     return (
         persons.map((person) => 
-        <div key= {person.name}>
+        <div key= {person.id}>
             <Person 
             person={person} 
             removePerson={() => removePerson(person.name)}
